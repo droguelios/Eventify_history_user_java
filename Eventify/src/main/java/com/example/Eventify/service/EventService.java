@@ -19,6 +19,11 @@ public class EventService {
     }
 
     public void insert(Event event) {
+
+        if (event.getName() == null || event.getName().isEmpty()) {
+            throw new RuntimeException("the event cannot be empty");
+        }
         eventRepository.save(event);
     }
+
 }
