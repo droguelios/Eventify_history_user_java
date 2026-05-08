@@ -7,10 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Event {
-
+public class Venue {
     private String id;
-    private String name;
-    private String date;
-    private String description;
+    private String places;
+    private String city;
+    private String capacity;
 }
