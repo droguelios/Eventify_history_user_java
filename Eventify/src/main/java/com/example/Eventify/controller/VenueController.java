@@ -3,14 +3,19 @@ package com.example.Eventify.controller;
 import java.util.List;
 import com.example.Eventify.entities.Venue;
 import com.example.Eventify.service.VenueService;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.http.HttpStatus;
+
+@Tag(name = "Venues", description = "API para gestion de espacios")
 @RestController
 @RequestMapping("/venues")
 @RequiredArgsConstructor
 public class VenueController {
-    
+
     private final VenueService venueService;
 
     @GetMapping
@@ -18,6 +23,7 @@ public class VenueController {
         return venueService.findAll();
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public void insert(@RequestBody Venue venue) {
         venueService.insert(venue);
