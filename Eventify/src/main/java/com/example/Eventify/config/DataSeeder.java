@@ -17,7 +17,8 @@ public class DataSeeder {
     @Bean
     public CommandLineRunner seedData() {
         return args -> {
-            eventService.insert(new Event("1", "event", "sincelejo", "2026-09-08"));
+            // Pasamos null en el ID porque es autoincremental
+            eventService.insert(new Event(null, "Concierto Rock", "2026-09-08", "Evento de rock en vivo"));
         };
     }
 

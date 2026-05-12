@@ -28,4 +28,15 @@ public class VenueController {
     public void insert(@RequestBody Venue venue) {
         venueService.insert(venue);
     }
+
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @DeleteMapping
+    public void delete(@RequestBody Venue venue) {
+        venueService.delete(venue);
+    }
+
+    @PutMapping
+    public void update(@RequestBody Venue venue) {
+        venueService.update(venue);
+    }
 }
