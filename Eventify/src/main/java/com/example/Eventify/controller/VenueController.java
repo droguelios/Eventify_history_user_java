@@ -39,4 +39,9 @@ public class VenueController {
     public void update(@RequestBody Venue venue) {
         venueService.update(venue);
     }
+
+    @GetMapping("/{id}")
+    public Venue findById(@PathVariable Long id) {
+        return venueService.findById(id);
+    }
 }

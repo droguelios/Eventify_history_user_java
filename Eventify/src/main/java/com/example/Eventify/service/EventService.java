@@ -3,6 +3,7 @@ package com.example.Eventify.service;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import com.example.Eventify.entities.Event;
+import com.example.Eventify.exceptions.ResourceNotFoundException;
 import com.example.Eventify.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -28,8 +29,14 @@ public class EventService {
 
     public void update(Event event) {
         if (event.getId() == null || !eventRepository.existsById(event.getId())) {
-            throw new RuntimeException("Event not found for update");
+            throw new ResourceNotFoundException("Event not found for update" + event.getId());
         }
         eventRepository.save(event);
     }
+
+    public Event findByid(Long id) {
+        return eventRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("event not found with this id : " + id));
+    }
+
 }

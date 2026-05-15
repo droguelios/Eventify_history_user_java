@@ -2,6 +2,7 @@ package com.example.Eventify.controller;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -50,5 +51,10 @@ public class EventController {
     @PutMapping
     public void update(@RequestBody Event event) {
         eventService.update(event);
+    }
+
+    @GetMapping("/{id}")
+    public Event findByid(@PathVariable long id) {
+        return eventService.findByid(id);
     }
 }

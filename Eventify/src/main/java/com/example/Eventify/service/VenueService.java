@@ -2,6 +2,7 @@ package com.example.Eventify.service;
 
 import java.util.List;
 import com.example.Eventify.entities.Venue;
+import com.example.Eventify.exceptions.ResourceNotFoundException;
 import com.example.Eventify.repository.VenueRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class VenueService {
-    
+
     private final VenueRepository venueRepository;
 
     public List<Venue> findAll() {
@@ -29,8 +30,13 @@ public class VenueService {
 
     public void update(Venue venue) {
         if (venue.getId() == null || !venueRepository.existsById(venue.getId())) {
-            throw new RuntimeException("Venue not found for update");
+            throw new ResourceNotFoundException("Venue not found for update");
         }
         venueRepository.save(venue);
+    }
+
+    public Venue findById(Long id) {
+        return venueRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(
+                "venue not found with this id : " + id));
     }
 }
