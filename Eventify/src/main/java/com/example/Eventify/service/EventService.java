@@ -1,19 +1,20 @@
 package com.example.Eventify.service;
 
-import java.util.List;
 import org.springframework.stereotype.Service;
 import com.example.Eventify.entities.Event;
 import com.example.Eventify.exceptions.ResourceNotFoundException;
 import com.example.Eventify.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page; // <--- Añade este
+import org.springframework.data.domain.Pageable; // <--- Cambia el import
 
 @Service
 @RequiredArgsConstructor
 public class EventService {
     private final EventRepository eventRepository;
 
-    public List<Event> findAll() {
-        return eventRepository.findAll();
+    public Page<Event> findAll(Pageable pageable) {
+        return eventRepository.findAll(pageable);
     }
 
     public void insert(Event event) {
