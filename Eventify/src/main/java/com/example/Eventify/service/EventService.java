@@ -24,8 +24,11 @@ public class EventService {
         eventRepository.save(event);
     }
 
-    public void delete(Event event) {
-        eventRepository.delete(event);
+    public void delete(Long id) {
+        if (id == null || !eventRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Event not found for delete id: " + id);
+        }
+        eventRepository.deleteById(id);
     }
 
     public void update(Event event) {

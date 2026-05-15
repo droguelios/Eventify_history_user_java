@@ -46,9 +46,9 @@ public class EventController {
 
     @Operation(summary = "Eliminar evento")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping
-    public void delete(@RequestBody Event event) {
-        eventService.delete(event);
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable Long id) {
+        eventService.delete(id);
     }
 
     @PutMapping

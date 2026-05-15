@@ -37,9 +37,9 @@ public class VenueController {
 
     @Operation(summary = "Eliminar venue")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping
-    public void delete(@RequestBody Venue venue) {
-        venueService.delete(venue);
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable Long id) {
+        venueService.delete(id);
     }
 
     @PutMapping

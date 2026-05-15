@@ -25,8 +25,11 @@ public class VenueService {
         venueRepository.save(venue);
     }
 
-    public void delete(Venue venue) {
-        venueRepository.delete(venue);
+    public void delete(Long id) {
+        if (!venueRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Venue not found for delete id: " + id);
+        }
+        venueRepository.deleteById(id);
     }
 
     public void update(Venue venue) {
