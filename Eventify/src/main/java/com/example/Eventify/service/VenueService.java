@@ -1,5 +1,6 @@
 package com.example.Eventify.service;
 
+import com.example.Eventify.entities.Event;
 import com.example.Eventify.entities.Venue;
 import com.example.Eventify.exceptions.ResourceNotFoundException;
 import com.example.Eventify.repository.VenueRepository;
@@ -7,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -25,8 +27,11 @@ public class VenueService {
         venueRepository.save(venue);
     }
 
-    public void delete(Venue venue) {
-        venueRepository.delete(venue);
+    public void delete(Long id) {
+        if (!venueRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Venue not found for delete id: " + id);
+        }
+        venueRepository.deleteById(id);
     }
 
     public void update(Venue venue) {
@@ -39,5 +44,9 @@ public class VenueService {
     public Venue findById(Long id) {
         return venueRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(
                 "venue not found with this id : " + id));
+    }
+
+    public List<Venue> findAll() {
+        return venueRepository.findAll();
     }
 }

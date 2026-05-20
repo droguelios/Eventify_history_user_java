@@ -7,11 +7,16 @@ import com.example.Eventify.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page; // <--- Añade este
 import org.springframework.data.domain.Pageable; // <--- Cambia el import
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class EventService {
     private final EventRepository eventRepository;
+
+    public List<Event> findAll() {
+        return eventRepository.findAll();
+    }
 
     public Page<Event> findAll(Pageable pageable) {
         return eventRepository.findAll(pageable);
@@ -24,8 +29,11 @@ public class EventService {
         eventRepository.save(event);
     }
 
-    public void delete(Event event) {
-        eventRepository.delete(event);
+    public void delete(Long id) {
+        if (id == null || !eventRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Event not found for delete id: " + id);
+        }
+        eventRepository.deleteById(id);
     }
 
     public void update(Event event) {

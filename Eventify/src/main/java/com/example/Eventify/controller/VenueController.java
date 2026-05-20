@@ -16,7 +16,7 @@ import org.springframework.http.HttpStatus;
 
 @Tag(name = "Venues", description = "API para gestion de espacios")
 @RestController
-@RequestMapping("/venues")
+@RequestMapping("/api/venues")
 @RequiredArgsConstructor
 public class VenueController {
 
@@ -35,11 +35,11 @@ public class VenueController {
         venueService.insert(venue);
     }
 
-    @Operation(summary = "Eliminar venue")
+    @Operation(summary = "Eliminar venue por ID")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping
-    public void delete(@RequestBody Venue venue) {
-        venueService.delete(venue);
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        venueService.delete(id);
     }
 
     @PutMapping

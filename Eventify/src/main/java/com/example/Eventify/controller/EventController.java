@@ -23,7 +23,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "Events", description = "API para gestion de eventos")
-@RequestMapping("/events")
+@RequestMapping("/api/events")
 @RestController
 public class EventController {
     private final EventService eventService;
@@ -44,11 +44,11 @@ public class EventController {
         eventService.insert(event);
     }
 
-    @Operation(summary = "Eliminar evento")
+    @Operation(summary = "Eliminar evento por ID")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping
-    public void delete(@RequestBody Event event) {
-        eventService.delete(event);
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        eventService.delete(id);
     }
 
     @PutMapping
