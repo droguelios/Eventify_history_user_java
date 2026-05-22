@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${tituloPantalla}">Panel de Control</title>
+</head>
+<body>
+    <h1 th:text="${tituloPantalla}">Catálogo de Sedes - Eventify</h1>
+    
+    <div th:if="${!venues.empty}">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Lugar</th>
+                    <th>Ciudad</th>
+                    <th>Capacidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="venue : ${venues}">
+                    <td th:text="${venue.id}">1</td>
+                    <td th:text="${venue.places}">Lugar ejemplo</td>
+                    <td th:text="${venue.city}">Ciudad ejemplo</td>
+                    <td th:text="${venue.capacity}">100</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div th:unless="${!venues.empty}">
+        <p>Actualmente no hay sedes registradas</p>
+    </div>
+    
+    <a href="/admin/venues/new">Crear nueva sede</a>
+</body>
+</html>

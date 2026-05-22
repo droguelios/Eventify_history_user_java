@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Sede</title>
+</head>
+<body>
+    <h1>Crear Nueva Sede</h1>
+    
+    <form th:action="@{/admin/venues/new}" th:object="${venue}" method="post">
+        <div>
+            <label>Lugar:</label>
+            <input type="text" th:field="*{places}" required />
+        </div>
+        <div>
+            <label>Ciudad:</label>
+            <input type="text" th:field="*{city}" required />
+        </div>
+        <div>
+            <label>Capacidad:</label>
+            <input type="number" th:field="*{capacity}" required />
+        </div>
+        <button type="submit">Guardar</button>
+    </form>
+    
+    <a href="/admin/venues">Volver al listado</a>
+</body>
+</html>
