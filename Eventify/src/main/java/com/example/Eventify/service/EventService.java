@@ -1,13 +1,13 @@
 package com.example.Eventify.service;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
-
 import com.example.Eventify.entities.Event;
+import com.example.Eventify.exceptions.ResourceNotFoundException;
 import com.example.Eventify.repository.EventRepository;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page; // <--- Añade este
+import org.springframework.data.domain.Pageable; // <--- Cambia el import
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -18,12 +18,34 @@ public class EventService {
         return eventRepository.findAll();
     }
 
-    public void insert(Event event) {
+    public Page<Event> findAll(Pageable pageable) {
+        return eventRepository.findAll(pageable);
+    }
 
+    public void insert(Event event) {
         if (event.getName() == null || event.getName().isEmpty()) {
-            throw new RuntimeException("the event cannot be empty");
+            throw new RuntimeException("The event name cannot be empty");
         }
         eventRepository.save(event);
+    }
+
+    public void delete(Long id) {
+        if (id == null || !eventRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Event not found for delete id: " + id);
+        }
+        eventRepository.deleteById(id);
+    }
+
+    public void update(Event event) {
+        if (event.getId() == null || !eventRepository.existsById(event.getId())) {
+            throw new ResourceNotFoundException("Event not found for update" + event.getId());
+        }
+        eventRepository.save(event);
+    }
+
+    public Event findByid(Long id) {
+        return eventRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("event not found with this id : " + id));
     }
 
 }

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${tituloPantalla}">Panel de Control</title>
+</head>
+<body>
+    <h1 th:text="${tituloPantalla}">Administración de Eventos - Eventify</h1>
+    
+    <div th:if="${!events.empty}">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Fecha</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="event : ${events}">
+                    <td th:text="${event.id}">1</td>
+                    <td th:text="${event.name}">Evento ejemplo</td>
+                    <td th:text="${event.date}">2024-01-01</td>
+                    <td th:text="${event.description}">Descripción</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div th:unless="${!events.empty}">
+        <p>Actualmente no hay eventos programados</p>
+    </div>
+    
+    <a href="/admin/events/new">Crear nuevo evento</a>
+</body>
+</html>
