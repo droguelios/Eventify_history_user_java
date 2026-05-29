@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>panel de control</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
 </head>
 <body>
 <h1 th:text="${tituloPantalla}">Administración de Eventos - Eventify</h1>
@@ -31,5 +32,6 @@
 
     <a href="/admin/venues/new">Crear Venue</a>
 </div>
+<script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>

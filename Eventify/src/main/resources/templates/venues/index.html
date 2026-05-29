@@ -3,35 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="${tituloPantalla}">Panel de Control</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
 </head>
-<body>
-    <h1 th:text="${tituloPantalla}">Catálogo de Sedes - Eventify</h1>
-    
-    <div th:if="${!venues.empty}">
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Lugar</th>
-                    <th>Ciudad</th>
-                    <th>Capacidad</th>
-                </tr>
+<body class="bg-light">
+
+<div class="container mt-5">
+
+    <div class="p-4 mb-4 bg-dark text-white rounded shadow-sm border-start border-success border-4">
+        <h1 class="m-0 fw-bold text-success" th:text="${tituloPantalla}">Catálogo de Sedes - Eventify</h1>
+    </div>
+
+    <div th:if="${!venues.empty}" class="table-responsive bg-white p-3 rounded shadow-sm mb-4">
+        <table class="table table-hover table-striped align-middle">
+            <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Lugar</th>
+                <th>Ciudad</th>
+                <th>Capacidad</th>
+            </tr>
             </thead>
             <tbody>
-                <tr th:each="venue : ${venues}">
-                    <td th:text="${venue.id}">1</td>
-                    <td th:text="${venue.places}">Lugar ejemplo</td>
-                    <td th:text="${venue.city}">Ciudad ejemplo</td>
-                    <td th:text="${venue.capacity}">100</td>
-                </tr>
+            <tr th:each="venue : ${venues}">
+                <td class="fw-bold text-dark" th:text="${venue.id}">1</td>
+                <td th:text="${venue.places}">Lugar ejemplo</td>
+                <td th:text="${venue.city}">Ciudad ejemplo</td>
+                <td>
+                    <span class="badge bg-success fs-6" th:text="${venue.capacity}">100</span>
+                </td>
+            </tr>
             </tbody>
         </table>
     </div>
-    
-    <div th:unless="${!venues.empty}">
-        <p>Actualmente no hay sedes registradas</p>
+
+    <div th:unless="${!venues.empty}" class="alert alert-warning shadow-sm" role="alert">
+        Actualmente no hay sedes registradas
     </div>
-    
-    <a href="/admin/venues/new">Crear nueva sede</a>
+
+    <div class="mt-3">
+        <a href="/admin/venues/new" class="btn btn-success btn-lg shadow-sm px-4">Crear nueva sede</a>
+    </div>
+</div>
+
+<script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>
