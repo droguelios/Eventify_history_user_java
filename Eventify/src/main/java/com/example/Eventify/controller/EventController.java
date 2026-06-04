@@ -1,14 +1,10 @@
 package com.example.Eventify.controller;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.Eventify.dto.EventSummaryDTO;
+import io.swagger.v3.oas.annotations.Parameter;
+import org.springframework.data.domain.Slice;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.http.HttpStatus;
 import com.example.Eventify.entities.Event;
@@ -31,6 +27,27 @@ public class EventController {
     public EventController(EventService eventService) {
         this.eventService = eventService;
     }
+
+    @Operation(
+            summary = "Search events with advanced filters",
+            description = "Retrieves a paginated Slice of active event summaries based on city and category. Inactive or soft-deleted events are automatically excluded."
+    )
+    @GetMapping("/search")
+    public ResponseEntity<Slice<EventSummaryDTO>> searchEvents(
+            @Parameter(description = "Partial or full name of the city (case-insensitive)")
+            @RequestParam(required = false) String city,
+
+            @Parameter(description = "Name of the category (case-insensitive)")
+            @RequestParam(required = false) String category,
+
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Slice<EventSummaryDTO> results = eventService.searchEvents(city, category, page, size);
+        return ResponseEntity.ok(results);
+    }
+
+
 
     @Operation(summary = "listar evento con paginacion y ordenamiento")
     @GetMapping

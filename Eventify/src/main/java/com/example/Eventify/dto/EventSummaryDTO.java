@@ -1,4 +1,10 @@
 package com.example.Eventify.dto;
 
-public record EventSummaryDTO() {
-}
+import lombok.NonNull;
+
+public record EventSummaryDTO(
+        String nameevent,
+        String date,
+        String nameplace,
+        String city
+) {}

@@ -27,20 +27,20 @@ public class Event {
     @Column(nullable = false, length = 100)
     private String name;
     @Column(nullable = false)
-    private boolean estado = true;
+    private boolean active = true;
     @Column(nullable = false)
     private String date;
 
 
     private String description;
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "venue_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "venue_id", nullable = true)
     private Venue venue;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "event,categories" ,
-    joinColumns = @JoinColumn(name = "event_id"),
-    inverseJoinColumns = @JoinColumn(name = "category_id"))
+    @JoinTable(name = "event_categories",
+            joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
 
 

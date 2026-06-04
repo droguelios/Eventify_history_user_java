@@ -5,7 +5,7 @@ import com.example.Eventify.service.VenueService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
@@ -22,12 +22,12 @@ public class VenueUIControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @MockitoBean
     private VenueService venueService;
 
     @Test
     public void testVenueList_ReturnsViewWithVenues() throws Exception {
-        // Arrange
+        Venue venueDummy = new Venue();
         Venue venue1 = new Venue(1L, "Lugar 1", "Ciudad 1", 100);
         Venue venue2 = new Venue(2L, "Lugar 2", "Ciudad 2", 200);
         List<Venue> venues = Arrays.asList(venue1, venue2);

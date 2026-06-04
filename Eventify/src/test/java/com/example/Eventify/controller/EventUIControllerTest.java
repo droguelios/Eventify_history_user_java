@@ -1,13 +1,15 @@
 package com.example.Eventify.controller;
 
+import com.example.Eventify.entities.Category;
 import com.example.Eventify.entities.Event;
+import com.example.Eventify.entities.Venue;
 import com.example.Eventify.service.EventService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-
+import java.util.HashSet;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,18 +24,24 @@ public class EventUIControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @MockitoBean
     private EventService eventService;
 
     @Test
     public void testEventList_ReturnsViewWithEvents() throws Exception {
-        
-        Event event1 = new Event(1L, "Evento 1", "2024-01-01", "Descripción 1");
-        Event event2 = new Event(2L, "Evento 2", "2024-02-01", "Descripción 2");
-        List<Event> events = Arrays.asList(event1, event2);
-        
-        when(eventService.findAll()).thenReturn(events);
 
+        Venue venueDummy = new Venue();
+        java.util.Set<Category> categoriasDummy = new java.util.HashSet<>();
+
+
+        Event event1 = new Event(null, "test JPA", true, "2026-09-10", "Desc", venueDummy, categoriasDummy);
+        Event event2 = new Event(null, "test JPA", true, "2026-09-11", "Desc", venueDummy, categoriasDummy);
+
+        // 3. Metemos los eventos en la lista
+        List<Event> events = Arrays.asList(event1, event2);
+
+        // 4. El comportamiento del Mock
+        when(eventService.findAll()).thenReturn(events);
         mockMvc.perform(get("/admin/events"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("events/index"))
