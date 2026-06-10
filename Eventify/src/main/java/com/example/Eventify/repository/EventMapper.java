@@ -2,6 +2,8 @@ package com.example.Eventify.repository;
 
 import com.example.Eventify.dto.EventCreateDTO;
 import com.example.Eventify.dto.EventResponseDTO;
+import com.example.Eventify.dto.EventSummaryDTO;
+import com.example.Eventify.dto.EventUpdateDTO;
 import com.example.Eventify.entities.Category;
 import com.example.Eventify.entities.Event;
 import org.mapstruct.Mapper;
@@ -14,23 +16,30 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring", imports = {Collectors.class, Category.class})
 public interface EventMapper {
 
-    // ========== Event → EventResponseDTO ==========
     @Mapping(source = "venue.places", target = "venuename")
     @Mapping(source = "categories", target = "categorynames", qualifiedByName = "mapCategoriesToNames")
     EventResponseDTO toResponseDTO(Event event);
 
-    // Convierte Set<Category> a un String con los nombres separados por coma
+    @Mapping(source = "name", target = "nameevent")
+    @Mapping(source = "venue.places", target = "nameplace")
+    @Mapping(source = "venue.city", target = "city")
+    EventSummaryDTO toSummaryDTO(Event event);
+
     @Named("mapCategoriesToNames")
     default String mapCategoriesToNames(Set<Category> categories) {
         if (categories == null) return null;
         return categories.stream().map(Category::getName).collect(Collectors.joining(", "));
     }
 
-    // ========== EventCreateDTO → Event ==========
-    @Mapping(target = "id", ignore = true)         // El ID lo genera la DB
-    @Mapping(target = "active", constant = "true") // Por defecto activo
-    @Mapping(target = "venue", ignore = true)      // Se asigna en el Service
-    @Mapping(target = "categories", ignore = true) // Se asigna en el Service
-    @Mapping(source = "nameevent", target = "name") // nameevent → name
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "active", constant = "true")
+    @Mapping(target = "venue", ignore = true)
+    @Mapping(target = "categories", ignore = true)
     Event toEntity(EventCreateDTO dto);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "active", ignore = true)
+    @Mapping(target = "venue", ignore = true)
+    @Mapping(target = "categories", ignore = true)
+    Event toEntity(EventUpdateDTO dto);
 }

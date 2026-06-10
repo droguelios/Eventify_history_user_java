@@ -1,8 +1,11 @@
 package com.example.Eventify.service;
 
+import com.example.Eventify.dto.EventCreateDTO;
 import com.example.Eventify.dto.EventSummaryDTO;
+import com.example.Eventify.dto.EventUpdateDTO;
 import com.example.Eventify.entities.Event;
 import com.example.Eventify.exceptions.ResourceNotFoundException;
+import com.example.Eventify.repository.EventMapper;
 import com.example.Eventify.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,6 +22,7 @@ import java.util.List;
 public class EventService {
 
     private final EventRepository eventRepository;
+    private final EventMapper eventMapper;
 
     @Transactional(readOnly = true)
     public Slice<EventSummaryDTO> searchEvents(String city, String category, int page, int size) {
@@ -26,21 +30,26 @@ public class EventService {
         return eventRepository.findEventsWithFilters(city, category, pageable);
     }
 
-    public List<Event> findAll() {
-        return eventRepository.findAll();
+    @Transactional(readOnly = true)
+    public List<EventSummaryDTO> findAll() {
+        List<Event> events = eventRepository.findAll();
+        return events.stream()
+                .map(eventMapper::toSummaryDTO)
+                .toList();
     }
 
-    public Page<Event> findAll(Pageable pageable) {
-        return eventRepository.findAll(pageable);
+    public Page<EventSummaryDTO> findAll(Pageable pageable) {
+        return eventRepository.findAll(pageable).map(eventMapper::toSummaryDTO);
     }
 
-    public void insert(Event event) {
-        if (event.getName() == null || event.getName().isEmpty()) {
-            throw new RuntimeException("The event name cannot be empty");
-        }
-        eventRepository.save(event);
+    @Transactional
+    public EventSummaryDTO insert(EventCreateDTO createDTO) {
+        Event event = eventMapper.toEntity(createDTO);
+        Event savedEvent = eventRepository.save(event);
+        return eventMapper.toSummaryDTO(savedEvent);
     }
 
+    @Transactional
     public void delete(Long id) {
         if (id == null || !eventRepository.existsById(id)) {
             throw new ResourceNotFoundException("Event not found for delete id: " + id);
@@ -48,15 +57,23 @@ public class EventService {
         eventRepository.deleteById(id);
     }
 
-    public void update(Event event) {
-        if (event.getId() == null || !eventRepository.existsById(event.getId())) {
-            throw new ResourceNotFoundException("Event not found for update" + event.getId());
-        }
-        eventRepository.save(event);
+    @Transactional
+    public EventSummaryDTO update(Long id, EventUpdateDTO updateDTO) {
+        if (id == null || !eventRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Event not found for update id: " + id);
+        } // <--- Aquí cerramos la llave del IF correctamente y liberamos el resto de la lógica
+
+        Event event = eventMapper.toEntity(updateDTO);
+        event.setId(id);
+
+        Event updatedEvent = eventRepository.save(event);
+        return eventMapper.toSummaryDTO(updatedEvent);
     }
 
-    public Event findByid(Long id) {
-        return eventRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("event not found with this id : " + id));
+    @Transactional(readOnly = true)
+    public EventSummaryDTO findByid(Long id) {
+        Event event = eventRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Event not found with this id : " + id));
+        return eventMapper.toSummaryDTO(event);
     }
 }

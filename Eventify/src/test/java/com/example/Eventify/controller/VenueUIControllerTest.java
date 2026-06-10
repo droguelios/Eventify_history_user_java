@@ -1,6 +1,6 @@
 package com.example.Eventify.controller;
 
-import com.example.Eventify.entities.Venue;
+import com.example.Eventify.dto.VenueResponseDTO;
 import com.example.Eventify.service.VenueService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +27,12 @@ public class VenueUIControllerTest {
 
     @Test
     public void testVenueList_ReturnsViewWithVenues() throws Exception {
-        Venue venueDummy = new Venue();
-        Venue venue1 = new Venue(1L, "Lugar 1", "Ciudad 1", 100);
-        Venue venue2 = new Venue(2L, "Lugar 2", "Ciudad 2", 200);
-        List<Venue> venues = Arrays.asList(venue1, venue2);
+        VenueResponseDTO venue1 = new VenueResponseDTO(1L, "Lugar 1", "Ciudad 1", 100);
+        VenueResponseDTO venue2 = new VenueResponseDTO(2L, "Lugar 2", "Ciudad 2", 200);
+        List<VenueResponseDTO> venues = Arrays.asList(venue1, venue2);
         
         when(venueService.findAll()).thenReturn(venues);
 
-        // Act & Assert
         mockMvc.perform(get("/admin/venues"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("venues/index"))
@@ -45,11 +43,9 @@ public class VenueUIControllerTest {
 
     @Test
     public void testVenueList_EmptyList() throws Exception {
-        // Arrange
-        List<Venue> emptyVenues = List.of();
+        List<VenueResponseDTO> emptyVenues = List.of();
         when(venueService.findAll()).thenReturn(emptyVenues);
 
-        // Act & Assert
         mockMvc.perform(get("/admin/venues"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("venues/index"))
@@ -59,7 +55,6 @@ public class VenueUIControllerTest {
 
     @Test
     public void testShowCreateForm_ReturnsViewWithNewVenue() throws Exception {
-        // Act & Assert
         mockMvc.perform(get("/admin/venues/new"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("venues/create"))
@@ -68,7 +63,6 @@ public class VenueUIControllerTest {
 
     @Test
     public void testCreateVenue_RedirectsToVenueList() throws Exception {
-        // Act & Assert
         mockMvc.perform(post("/admin/venues/new")
                         .param("places", "Nuevo Lugar")
                         .param("city", "Nueva Ciudad")

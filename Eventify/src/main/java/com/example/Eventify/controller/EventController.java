@@ -1,7 +1,12 @@
 package com.example.Eventify.controller;
 
+import com.example.Eventify.dto.EventCreateDTO;
+import com.example.Eventify.dto.EventResponseDTO;
 import com.example.Eventify.dto.EventSummaryDTO;
+import com.example.Eventify.dto.EventUpdateDTO;
+import com.example.Eventify.repository.EventMapper;
 import io.swagger.v3.oas.annotations.Parameter;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +28,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 public class EventController {
     private final EventService eventService;
+
 
     public EventController(EventService eventService) {
         this.eventService = eventService;
@@ -51,14 +57,15 @@ public class EventController {
 
     @Operation(summary = "listar evento con paginacion y ordenamiento")
     @GetMapping
-    public Page<Event> findAllAll(@ParameterObject Pageable pageable) {
+    public Page<EventSummaryDTO> findAll(@Valid @ParameterObject Pageable pageable) {
         return eventService.findAll(pageable);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void insert(@RequestBody Event event) {
-        eventService.insert(event);
+    public EventSummaryDTO insert(@Valid @RequestBody EventCreateDTO eventCreateDTO){
+        return eventService.insert(eventCreateDTO);
+
     }
 
     @Operation(summary = "Eliminar evento por ID")
@@ -68,16 +75,15 @@ public class EventController {
         eventService.delete(id);
     }
 
-    @PutMapping
-    public void update(@RequestBody Event event) {
-        eventService.update(event);
+    @PutMapping("/{id}")
+    public EventSummaryDTO update(@PathVariable Long id, @Valid @RequestBody EventUpdateDTO dto) {
+        return eventService.update(id, dto); // Ahora sí hacen match perfecto
     }
-
     @Operation(summary = "obtener evento por id")
     @ApiResponse(responseCode = "200", description = "Evento encontrado")
     @ApiResponse(responseCode = "404", description = "Evento no encontrado")
     @GetMapping("/{id}")
-    public Event findByid(@PathVariable long id) {
+    public EventSummaryDTO findByid(@PathVariable Long id) {  // Long con mayúscula
         return eventService.findByid(id);
     }
 }

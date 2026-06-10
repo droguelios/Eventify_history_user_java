@@ -14,6 +14,7 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     @Query("""
         SELECT new com.example.Eventify.dto.EventSummaryDTO(
+            e.id,
             e.name, 
             e.date, 
             v.places, 
