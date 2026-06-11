@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>panel de control</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
+</head>
+<body>
+<h1 th:text="${tituloPantalla}">Administración de Eventos - Eventify</h1>
+
+<div th:text="${venues.empty}"></div>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>fecha</th>
+            <th>descripcion</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td th:text="${venues.id}">1</td>
+            <td th:text="${venues.name}">venue 1</td>
+            <td th:text="${venues.capacity}">100</td>
+            <td th:text="${venues.address}">address 1</td>
+        </tr>
+    </tbody>
+</table>
+<div th:unless="${venues.empty}">
+    <p>No hay Venues</p>
+
+    <a href="/admin/venues/new">Crear Venue</a>
+</div>
+<script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
