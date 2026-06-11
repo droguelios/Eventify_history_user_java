@@ -1,13 +1,12 @@
 package com.example.Eventify.controller;
 
-import com.example.Eventify.entities.Event;
+import com.example.Eventify.dto.EventSummaryDTO;
 import com.example.Eventify.service.EventService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,18 +21,17 @@ public class EventUIControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @MockitoBean
     private EventService eventService;
 
     @Test
     public void testEventList_ReturnsViewWithEvents() throws Exception {
-        
-        Event event1 = new Event(1L, "Evento 1", "2024-01-01", "Descripción 1");
-        Event event2 = new Event(2L, "Evento 2", "2024-02-01", "Descripción 2");
-        List<Event> events = Arrays.asList(event1, event2);
-        
-        when(eventService.findAll()).thenReturn(events);
+        EventSummaryDTO event1 = new EventSummaryDTO(1L, "Evento 1", "2026-09-10", "Lugar 1", "Ciudad 1");
+        EventSummaryDTO event2 = new EventSummaryDTO(2L, "Evento 2", "2026-09-11", "Lugar 2", "Ciudad 2");
 
+        List<EventSummaryDTO> events = Arrays.asList(event1, event2);
+
+        when(eventService.findAll()).thenReturn(events);
         mockMvc.perform(get("/admin/events"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("events/index"))
@@ -44,11 +42,9 @@ public class EventUIControllerTest {
 
     @Test
     public void testEventList_EmptyList() throws Exception {
-        // Arrange
-        List<Event> emptyEvents = List.of();
+        List<EventSummaryDTO> emptyEvents = List.of();
         when(eventService.findAll()).thenReturn(emptyEvents);
 
-        // Act & Assert
         mockMvc.perform(get("/admin/events"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("events/index"))
@@ -58,7 +54,6 @@ public class EventUIControllerTest {
 
     @Test
     public void testShowCreateForm_ReturnsViewWithNewEvent() throws Exception {
-        // Act & Assert
         mockMvc.perform(get("/admin/events/new"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("events/create"))
@@ -67,7 +62,6 @@ public class EventUIControllerTest {
 
     @Test
     public void testCreateEvent_RedirectsToEventList() throws Exception {
-        // Act & Assert
         mockMvc.perform(post("/admin/events/new")
                         .param("name", "Nuevo Evento")
                         .param("date", "2024-03-01")

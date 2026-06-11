@@ -9,74 +9,59 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 .maven.metadata.xml
-!**/src/main/**/target/
-!**/src/test/**/target/
 
-### IDE - IntelliJ IDEA ###
+### IDE ###
 .idea/
+.vscode/
 *.iws
 *.iml
 *.ipr
-
-### IDE - VS Code ###
-.vscode/
-*.code-workspace
-
-### IDE - STS ###
-.apt_generated
+*.sublime-workspace
+*.sublime-project
 .classpath
 .factorypath
 .project
 .settings/
-.springBeans
 .sts4-cache/
 
-### IDE - NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
 ### Build & Generated ###
+build/
+.apt_generated/
 *.class
 *.jar
 *.war
 *.ear
-.apt_generated/
 
-### Runtime & Logs ###
+### Runtime ###
 *.log
 *.tmp
 *.pid
 
-### Data & Database ###
+### Data & Configuration ###
 data/
 *.db
 *.sqlite
 *.h2.db
-
-### Configuration & Security ###
 application-*.properties
 application-*.yml
 .env
 .env.local
 credentials.json
+
+### Security ###
 *.pem
 *.key
 *.crt
 *.pfx
 *.p12
 
-### Docker ###
-docker-compose.override.yml
-.dockerignore
-.docker/
-
 ### OS ###
 .DS_Store
 Thumbs.db
 .directory
+
+### IDE Cache ###
+.cache/
+.venv/
+*.pyc
+__pycache__/

@@ -1,5 +1,8 @@
 package com.example.Eventify.controller;
 
+import com.example.Eventify.dto.EventSummaryDTO;
+import com.example.Eventify.dto.EventCreateDTO;
+import com.example.Eventify.dto.EventResponseDTO;
 import com.example.Eventify.entities.Event;
 import com.example.Eventify.service.EventService;
 import org.springframework.stereotype.Controller;
@@ -20,7 +23,7 @@ public class EventUIController {
 
     @GetMapping
     public String eventList(Model model) {
-        List<Event> events = eventService.findAll();
+        List<EventSummaryDTO> events = eventService.findAll();
         model.addAttribute("events", events);
         model.addAttribute("tituloPantalla", "Administración de Eventos - Eventify");
         return "events/index";
@@ -33,7 +36,7 @@ public class EventUIController {
     }
 
     @PostMapping("/new")
-    public String createEvent(@ModelAttribute Event event) {
+    public String createEvent(@ModelAttribute EventCreateDTO event) {
         eventService.insert(event);
         return "redirect:/admin/events";
     }

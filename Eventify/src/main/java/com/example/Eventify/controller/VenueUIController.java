@@ -1,5 +1,7 @@
 package com.example.Eventify.controller;
 
+import com.example.Eventify.dto.VenueResponseDTO;
+import com.example.Eventify.dto.VenueCreateDTO;
 import com.example.Eventify.entities.Venue;
 import com.example.Eventify.service.VenueService;
 import org.springframework.stereotype.Controller;
@@ -20,7 +22,7 @@ public class VenueUIController {
 
     @GetMapping
     public String venueList(Model model) {
-        List<Venue> venues = venueService.findAll();
+        List<VenueResponseDTO> venues = venueService.findAll();
         model.addAttribute("venues", venues);
         model.addAttribute("tituloPantalla", "Catálogo de Sedes - Eventify");
         return "venues/index";
@@ -33,7 +35,7 @@ public class VenueUIController {
     }
 
     @PostMapping("/new")
-    public String createVenue(@ModelAttribute Venue venue) {
+    public String createVenue(@ModelAttribute VenueCreateDTO venue) {
         venueService.insert(venue);
         return "redirect:/admin/venues";
     }
