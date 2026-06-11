@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import com.example.Eventify.entities.Category;
 import com.example.Eventify.entities.Event;
 import com.example.Eventify.entities.Venue;
 
@@ -21,7 +20,7 @@ public class EventRepositoryTest {
 
     @Test
     void testSaveAndFindById() {
-        Venue venue = new Venue(null, "Lugar", "Ciudad", 100, new HashSet<>());
+        Venue venue = new Venue(null, "Lugar", "Ciudad", 100);
         Event event = new Event(null, "test JPA", true, "2026-05-15", "Desc", venue, new HashSet<>());
         Event saved = eventRepository.save(event);
 

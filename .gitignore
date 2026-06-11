@@ -1,8 +1,67 @@
-.idea/
-data/
+### Maven ###
 target/
-*.log
-*.tmp
+.mvn/wrapper/maven-wrapper.jar
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.maven.metadata.xml
+
+### IDE ###
+.idea/
+.vscode/
+*.iws
+*.iml
+*.ipr
+*.sublime-workspace
+*.sublime-project
+.classpath
+.factorypath
+.project
+.settings/
+.sts4-cache/
+
+### Build & Generated ###
+build/
+.apt_generated/
 *.class
 *.jar
 *.war
+*.ear
+
+### Runtime ###
+*.log
+*.tmp
+*.pid
+
+### Data & Configuration ###
+data/
+*.db
+*.sqlite
+*.h2.db
+application-*.properties
+application-*.yml
+.env
+.env.local
+credentials.json
+
+### Security ###
+*.pem
+*.key
+*.crt
+*.pfx
+*.p12
+
+### OS ###
+.DS_Store
+Thumbs.db
+.directory
+
+### IDE Cache ###
+.cache/
+.venv/
+*.pyc
+__pycache__/
